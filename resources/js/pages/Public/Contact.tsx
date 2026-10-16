@@ -1,0 +1,20 @@
+import { useForm, usePage } from '@inertiajs/react';
+import { CheckCircle2, Mail, ShieldCheck } from 'lucide-react';
+import type { FormEvent } from 'react';
+import PublicLayout from '@/layouts/PublicLayout';
+import { FieldError } from '@/components/Ui';
+import { SeoHead } from '@/components/SeoHead';
+import type { PageProps, Seo } from '@/types';
+
+type ContactData = { name: string; email: string; company: string; country: string; phone: string; service_id: string; budget: string; message: string; consent: boolean; website: string };
+export default function Contact({ services, seo }: { services: { id: number; title: string }[]; seo: Seo }) {
+    const page = usePage().props as unknown as PageProps;
+    const query = new URLSearchParams(location.search);
+    const form = useForm<ContactData>({ name: '', email: '', company: '', country: '', phone: '', service_id: query.get('service') || '', budget: '', message: '', consent: false, website: '' });
+    const submit = (event: FormEvent) => { event.preventDefault(); form.post('/contact', { preserveScroll: true, onSuccess: () => form.reset('message', 'website') }); };
+    return <PublicLayout><SeoHead seo={seo} fallbackTitle="Start a project" fallbackDescription="Tell CDMIT about your software, web, mobile, cloud or automation project." />
+        <section className="contact-hero"><div className="container"><div><span className="eyebrow">Start a project</span><h1>Tell us where you are and what needs to move forward.</h1><p>Share the context, constraints and outcome you’re aiming for. We’ll review it carefully and respond through the contact details you provide.</p><div className="contact-points"><span><CheckCircle2 />No obligation discovery conversation</span><span><ShieldCheck />Your information stays private</span>{page.site.contact_email && <a href={`mailto:${page.site.contact_email}`}><Mail />{page.site.contact_email}</a>}</div></div>
+            <form className="contact-form" onSubmit={submit} noValidate>{page.flash.success && <div className="alert success" role="status">{page.flash.success}</div>}<div className="form-grid"><label>Full name *<input value={form.data.name} onChange={(e) => form.setData('name', e.target.value)} /><FieldError message={form.errors.name} /></label><label>Business email *<input type="email" value={form.data.email} onChange={(e) => form.setData('email', e.target.value)} /><FieldError message={form.errors.email} /></label><label>Company<input value={form.data.company} onChange={(e) => form.setData('company', e.target.value)} /></label><label>Country<input value={form.data.country} onChange={(e) => form.setData('country', e.target.value)} /></label><label>Service interest<select value={form.data.service_id} onChange={(e) => form.setData('service_id', e.target.value)}><option value="">Select a service</option>{services.map((service) => <option key={service.id} value={service.id}>{service.title}</option>)}</select></label><label>Indicative budget<select value={form.data.budget} onChange={(e) => form.setData('budget', e.target.value)}><option value="">Prefer to discuss</option><option>Under ₹2 lakh</option><option>₹2–5 lakh</option><option>₹5–15 lakh</option><option>₹15 lakh+</option></select></label></div><label>Project context *<textarea rows={7} value={form.data.message} onChange={(e) => form.setData('message', e.target.value)} placeholder="What are you building, improving or trying to solve?" /><FieldError message={form.errors.message} /></label><label className="honeypot" aria-hidden="true">Website<input tabIndex={-1} autoComplete="off" value={form.data.website} onChange={(e) => form.setData('website', e.target.value)} /></label><label className="checkbox-row"><input type="checkbox" checked={form.data.consent} onChange={(e) => form.setData('consent', e.target.checked)} /><span>I agree to CDMIT using these details to respond to my inquiry.</span></label><FieldError message={form.errors.consent} /><button className="btn btn-primary" disabled={form.processing}>{form.processing ? 'Sending…' : 'Send project inquiry'}</button></form>
+        </div></section>
+    </PublicLayout>;
+}

@@ -1,0 +1,15 @@
+import { CheckCircle2, MessageSquareText, Scale, Target } from 'lucide-react';
+import PublicLayout from '@/layouts/PublicLayout';
+import { ButtonLink, SectionHeading } from '@/components/Ui';
+import { SeoHead } from '@/components/SeoHead';
+import type { Seo } from '@/types';
+
+export default function About({ seo }: { seo: Seo }) {
+    return <PublicLayout><SeoHead seo={seo} fallbackTitle="About CDMIT" fallbackDescription="Learn how CDMIT approaches software strategy, design, engineering and long-term technical partnership." />
+        <section className="page-hero"><div className="container narrow"><span className="eyebrow">About CDMIT</span><h1>Technology should make the business clearer, not more complicated.</h1><p>CDMIT is an IT services and software development company serving organizations in India and international markets. We focus on well-structured solutions, honest communication and dependable execution.</p></div></section>
+        <section className="section"><div className="container split"><div><SectionHeading eyebrow="Our purpose" title="Make ambitious digital work practical" /><p className="lead-copy">We help teams move from uncertainty to a working product through thoughtful discovery, focused design and engineering decisions that respect the realities of operations, security and growth.</p></div><div className="quote-panel"><p>“Understand the real problem, choose the right level of technology, and leave the system better than we found it.”</p><span>CDMIT engineering principle</span></div></div></section>
+        <section className="section band"><div className="container"><SectionHeading eyebrow="How we work" title="A delivery model built around visibility" /><div className="value-grid"><article><Target /><h3>Outcome focused</h3><p>Business goals and user value guide scope, priorities and architecture.</p></article><article><MessageSquareText /><h3>Direct communication</h3><p>Clear progress, early risk signals and decisions explained without unnecessary jargon.</p></article><article><Scale /><h3>Pragmatic quality</h3><p>Engineering rigor where it matters, with complexity kept proportional to the problem.</p></article></div></div></section>
+        <section className="section"><div className="container split"><div><SectionHeading eyebrow="Quality approach" title="Designed for launch. Engineered for what follows." /></div><ul className="check-list large"><li><CheckCircle2 />Requirements validated before deep implementation</li><li><CheckCircle2 />Reusable design and code foundations</li><li><CheckCircle2 />Security, accessibility and performance reviews</li><li><CheckCircle2 />Release planning, documentation and handover</li><li><CheckCircle2 />Maintenance paths that protect long-term value</li></ul></div></section>
+        <section className="cta-band"><div className="container"><div><span className="eyebrow">Work with CDMIT</span><h2>Bring us the challenge, not a predetermined answer.</h2></div><ButtonLink href="/contact">Start a conversation</ButtonLink></div></section>
+    </PublicLayout>;
+}

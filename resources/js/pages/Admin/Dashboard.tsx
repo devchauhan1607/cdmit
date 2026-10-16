@@ -1,0 +1,10 @@
+import { Head, Link } from '@inertiajs/react';
+import { ArrowRight, BriefcaseBusiness, FileText, Inbox, Layers3 } from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
+import { formatDate, label } from '@/lib/utils';
+import type { Lead } from '@/types';
+
+export default function Dashboard({ metrics, leadStatuses, recentLeads }: { metrics: Record<string, number>; leadStatuses: { status: string; label: string; total: number }[]; recentLeads: Lead[] }) {
+    const cards = [['Total leads', metrics.totalLeads, Inbox], ['New leads', metrics.newLeads, Inbox], ['Awaiting follow-up', metrics.awaitingFollowUp, Inbox], ['Published services', metrics.publishedServices, Layers3], ['Published case studies', metrics.publishedCaseStudies, BriefcaseBusiness], ['Published posts', metrics.publishedPosts, FileText]] as const;
+    return <AdminLayout title="Dashboard"><Head title="Admin dashboard"><meta name="robots" content="noindex" /></Head><div className="metric-grid">{cards.map(([name, value, Icon]) => <article key={name}><Icon /><span>{name}</span><strong>{value}</strong></article>)}</div><div className="admin-grid"><section className="panel"><div className="panel-head"><div><small>Lead pipeline</small><h2>Status overview</h2></div><Link href="/admin/leads">View all <ArrowRight size={15} /></Link></div><div className="status-bars">{leadStatuses.map((item) => <div key={item.status}><span>{item.label}</span><b>{item.total}</b><i style={{ width: `${metrics.totalLeads ? Math.max((item.total / metrics.totalLeads) * 100, item.total ? 5 : 0) : 0}%` }} /></div>)}</div></section><section className="panel"><div className="panel-head"><div><small>Latest activity</small><h2>Recent inquiries</h2></div></div>{recentLeads.length ? <div className="compact-list">{recentLeads.map((lead) => <Link href={`/admin/leads/${lead.id}`} key={lead.id}><div><strong>{lead.name}</strong><span>{lead.company || lead.email}</span></div><div><b className={`status ${lead.status}`}>{label(lead.status)}</b><time>{formatDate(lead.created_at)}</time></div></Link>)}</div> : <p className="empty-copy">No inquiries yet.</p>}</section></div></AdminLayout>;
+}
