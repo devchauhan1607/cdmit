@@ -1,0 +1,3 @@
+import{j as e}from"./app-BKkAH1S0.js";import{F as a}from"./Ui-S8wyDjXs.js";/* empty css            */import"./utils-TAG2_v7m.js";import"./arrow-right-B_4Vy30I.js";import"./createLucideIcon-CvzT1iqz.js";function p({label:r,error:o,hint:s,children:t,full:i=!1}){return e.jsxs("label",{className:i?"form-field full":"form-field",children:[e.jsx("span",{children:r}),t,s&&e.jsx("small",{children:s}),e.jsx(a,{message:o})]})}function x({processing:r,isEdit:o}){return e.jsx("div",{className:"form-actions",children:e.jsx("button",{className:"btn btn-primary",disabled:r,children:r?"Saving…":o?"Save changes":"Create record"})})}const j=r=>r.split(`
+`).map(o=>o.trim()).filter(Boolean),u=r=>r?.join(`
+`)||"";export{p as Field,x as FormActions,u as arrayToText,j as textToArray};
